@@ -60,6 +60,7 @@ export default class HtmlHeadStore extends BaseStore {
 
   // Used to get internationalized messages, has access to the IntlStore
   formatMessage(message, values={}) {
+    //message ex:  meta.title
     const store = this.dispatcher.getStore("IntlStore");
     const msg = new IntlMessageFormat(store.getMessage(message), store.getLocales());
     return msg.format(values);
@@ -75,27 +76,29 @@ export default class HtmlHeadStore extends BaseStore {
   // Remember: route is an immutable object!
 
   handleNavigateSuccess(route) {
+    console.log('what is the route1??',route.get('name'));
 
     switch (route.get("name")) {
 
     case "photo":
+      //NOT SURE WHAT THIS ALL IS YET, BUT IT'S CAUSING ERRORS, I THINK IT'S TRYING TO REWRITE THE TAB HEADER?
+      //const id = route.getIn(["params", "id"]);
 
-      const id = route.getIn(["params", "id"]);
+     // const store = this.dispatcher.getStore("PhotoStore");
+      // const photo = store.get(id); DON'T NEED THIS ANYMORE
 
-      const store = this.dispatcher.getStore("PhotoStore");
-      const photo = store.get(id);
+      // this.title = this.formatMessage("photo.documentTitle", {
+      //   name: id,
+      //   // user: photo.user.fullname
+      //   user: 'Needs a title'
+      // });
 
-      this.title = this.formatMessage("photo.documentTitle", {
-        name: photo.name,
-        user: photo.user.fullname
-      });
+      // this.description = this.formatMessage("photo.documentDescription", {
+      //   name: photo.name,
+      //   user: photo.user.fullname
+      // });
 
-      this.description = this.formatMessage("photo.documentDescription", {
-        name: photo.name,
-        user: photo.user.fullname
-      });
-
-      this.images = [photo.image_url];
+      // this.images = [photo.image_url];
       break;
 
     case "featured":

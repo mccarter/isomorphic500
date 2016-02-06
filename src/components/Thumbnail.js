@@ -9,17 +9,22 @@ if (process.env.BROWSER) {
 export default class Thumbnail extends React.Component {
 
   static propTypes = {
-    photo: PropTypes.object.isRequired
+    photoUrl: PropTypes.object.isRequired,
+    index: PropTypes.object.isRequired
   }
 
   render() {
-    const { photo } = this.props;
+    const { photoUrl } = this.props;
     const style = {
-      backgroundImage: `url("${photo.images[0].url}")`
+      backgroundImage: `url(${photoUrl})`, //EXAMPLE OF ES6 STRING INTERPOLATION
+      backgroundSize: '100% 100%' //STRETCHES BACKBROUND IMAGE TO FIT ON NAVLINK ANCHOR ELEMENT
     };
-
+    let index = this.props.index;
+    // <NavLink className="Thumbnail" style={ style } routeName="photo" navParams={ {id: photo.id} } />
     return (
-      <NavLink className="Thumbnail" style={ style } routeName="photo" navParams={ {id: photo.id} } />
+      //The navParams will be used together with the routeName to form the href for the link. ex: photo/100
+      //https://github.com/yahoo/flux-router-component/blob/master/docs/navlink.md
+      <NavLink key={ index } routeName="photo" navParams={ {id: this.props.id} } className="Thumbnail" style={ style } />
     );
   }
 

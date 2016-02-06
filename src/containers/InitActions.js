@@ -5,13 +5,14 @@ import { loadFeaturedPhotos, loadPhoto } from "../actions/PhotoActionCreators";
 export default {
 
   featuredPage(context, route, done) {
-    const feature = route.getIn(["params", "feature"]);
-    context.executeAction(loadFeaturedPhotos, { feature }, done);
+    const menuOption = route.getIn(["params", "day"]);//ex: 'Today'
+    context.executeAction(loadFeaturedPhotos, { menuOption }, done);// in ES6, {menuOption} is equivalent to {menuOption: menuOption}
   },
 
-  photoPage(context, route, done) {
-    const id = route.getIn(["params", "id"]);
-    context.executeAction(loadPhoto, { id }, done);
+  photoPage(context, route, done) {//This function is executed on load of the photo page after a user clicks on a gallery image
+    const id = route.getIn(["params", "id"]); //Gets the value from the navParams, in this case, the id of the photo
+    context.executeAction(loadPhoto, { id }, done); //This is the code the app came with which calls a service
+
   },
 
   // do not load something, just send an error in the callback

@@ -3,8 +3,8 @@
 .Thumbnail {
   background-color: $color-background;
   box-sizing: border-box;
-  min-width: 8rem;
-  min-height: 8rem;
+  max-width: 300px; /*CAPS HEIGHT AND WIDTH SO MORE PHOTOS CAN FIT ON THE PAGE*/
+  max-height: 200px;
 
   border: 1px solid $color-white;
 

@@ -12,25 +12,24 @@ export default class FeaturedStore extends BaseStore {
   static storeName = "FeaturedStore"
 
   static handlers = {
-    [Actions.LOAD_FEATURED_PHOTOS_SUCCESS]: "handleLoadSuccess"
+    [Actions.LOAD_PHOTOS_SUCCESS]: "handleLoadSuccess"
   }
 
   constructor(dispatcher) {
     super(dispatcher);
-    this.featured = [];
+    this.photoUrls = [];
     this.currentFeature = null;
   }
 
-  handleLoadSuccess({ feature, photos }) {
-    this.dispatcher.waitFor("PhotoStore", () => {
-      this.currentFeature = feature;
-      this.featured = photos.map(photo => photo.id);
+  handleLoadSuccess({ photoUrls }) {
+    //this.dispatcher.waitFor("PhotoStore", () => {//What is this.dispatcher.waitFor????
+      this.photoUrls = photoUrls;
       this.emitChange();
-    });
+    //});
   }
 
-  getFeaturedPhotos() {
-    return this.featured;
+  getPhotos() {
+    return this.photoUrls;
   }
 
   getCurrentFeature() {

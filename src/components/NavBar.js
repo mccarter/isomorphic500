@@ -1,19 +1,21 @@
 import React, { PropTypes, Component } from "react";
 import { connectToStores } from "fluxible-addons-react";
+//connectToStores is a higher-order component that provides a convenient way to access state
+//from the stores from within your component. It takes care of defining getInitialState and listening
+//to the stores for updates. The store state will be sent to the Component instance as props.
 import { NavLink } from "fluxible-router";
 
 import Logo from "../components/Logo";
 
-import features from "../constants/features";
+import menuOptions from "../constants/menuOptions";
 import LocaleSwitcher from "../components/LocaleSwitcher";
-import { FormattedMessage } from "../utils/IntlComponents";
 
 if (process.env.BROWSER) {
   require("../style/NavBar.scss");
 }
 
 @connectToStores([], context =>
-  ({ route: context.getStore("RouteStore").getCurrentRoute() })
+  ({ route: context.getStore("RouteStore").getCurrentRoute() })//Think of this as getIntialState...it gets the state from the store
 )
 export default class NavBar extends Component {
 
@@ -21,9 +23,14 @@ export default class NavBar extends Component {
     route: PropTypes.object.isRequired
   }
 
+  removeUnderscores(text) {
+   return text.split('_').join(' ');
+  }
+
   render() {
-    const { route } = this.props;
-    const currentFeature = route ? route.getIn(["params", "feature"]) : null;
+    const { route } = this.props;// same as var route = this.props.route
+    const currentmenuItem = route ? route.getIn(["params", "day"]) : null;//This is a built routing functions that gets the last parameter of the route.
+
     return (
       <div className="NavBar">
         <div className="NavBar-title">
@@ -33,20 +40,20 @@ export default class NavBar extends Component {
         </div>
         <div className="NavBar-links">
           {
-            features.map(feature => {
+            menuOptions.map(menuItem => {{/*Iterates over menu links and creates nav links around them for routing*/}
               let className = "NavBar-link";
 
-              if (currentFeature === feature) {
+              if (currentmenuItem === menuItem) {//Builds selected class
                 className = `${className} ${className}--selected`;
               }
-
+              let menuOption = this.removeUnderscores(menuItem);//the menu item is the day. ex: 'Today'
               return (
                 <NavLink
-                  key={ feature }
+                  key={ menuItem }
                   className={ className }
-                  routeName="featured"
-                  navParams={ {feature: feature} }>
-                  <FormattedMessage message={ `features.${feature}` } />
+                  routeName="menuOption"
+                  navParams={ {day: menuItem} }>{/*This is a cool feature where {day: menuItem} represents day/Today for example*/}
+                  <div>{menuOption}</div>
                 </NavLink>
               );
             })

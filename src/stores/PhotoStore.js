@@ -20,10 +20,15 @@ export default class PhotoStore extends BaseStore {
   constructor(dispatcher) {
     super(dispatcher);
     this.photos = {};
+    this.photoId = "";
+    this.photo = "";
   }
 
-  handleLoadSuccess(photo) {
-    this.photos[photo.id] = _.merge({}, this.photos[photo.id], photo);
+  handleLoadSuccess(id) {
+    //this.photos[photo.id] = _.merge({}, this.photos[photo.id], photo);
+    // this.photo = id;//saves url that is in view
+    this.photoId = id;
+    console.log('PHOTO ID in PHOTO STORE: ', this.photoId);
     this.emitChange();
   }
 
@@ -32,10 +37,14 @@ export default class PhotoStore extends BaseStore {
     this.emitChange();
   }
 
+  getPhotoUrl() {
+    return this.photo;
+  }
+
   get(id, minSize=0) {
-    return _.find(this.photos, photo =>
-      photo.id === parseInt(id) && photo.images[0].size >= minSize
-    );
+    // return _.find(this.photos, photo =>
+    //   photo.id === parseInt(id) && photo.images[0].size >= minSize
+    // );
   }
 
   getMultiple(ids) {
@@ -44,12 +53,14 @@ export default class PhotoStore extends BaseStore {
 
   dehydrate() {
     return {
-      photos: this.photos
+      photos: this.photos,
+      photo: this.photo
     };
   }
 
   rehydrate(state) {
     this.photos = state.photos;
+    this.photo = state.photo;
   }
 
 }

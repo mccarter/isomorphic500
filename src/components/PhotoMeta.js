@@ -13,7 +13,7 @@ export default class PhotoMeta extends Component {
   static propTypes = {
     photo: PropTypes.object.isRequired
   }
-
+  //THIS IS THE DESCRIPTION OF THE PHOTO
   render() {
     const { photo } = this.props;
 

@@ -18,10 +18,11 @@ function connectToIntlStore(Component) {
 
   @connectToStores([], (context, props) => {
     const intlStore = context.getStore("IntlStore");
+
     return {
       messages: intlStore.getMessages(),
       locales: intlStore.getLocales(),
-      message: props.message ? intlStore.getMessage(props.message) : null
+      message: props.message ? intlStore.getMessage(props.message, 'Invoked from IntlConnection Component') : null
     };
   })
   class IntlConnection extends React.Component {
@@ -33,6 +34,7 @@ function connectToIntlStore(Component) {
     }
 
     render() {
+      console.log('PROPS PASSED INTO INTERNATIONAL FORMATTING COMPONENT: ', ...this.props);
       return (
         <Component {...this.props} />
       );

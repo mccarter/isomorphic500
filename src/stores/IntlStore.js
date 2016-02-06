@@ -26,8 +26,8 @@ class IntlStore extends BaseStore {
     return this.messages;
   }
 
-  getMessage(path) {
-    return getIntlMessage(this.messages, path);
+  getMessage(path, invoked) {
+    return getIntlMessage(this.messages, path, invoked);
   }
 
   getLocales() {
